@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Information</title>
+    <style>
+        * { box-sizing:border-box; margin:0; padding:0; }
+        body { font-family:'Segoe UI',Arial,sans-serif; background:#f4f6fb; color:#1e2a4a; }
+        #navbar { height:48px; background:#fff; display:flex; align-items:center; padding:0 20px; border-bottom:1px solid #e4e8f0; box-shadow:0 1px 4px rgba(0,0,0,0.06); gap:14px; }
+        #back-btn { padding:5px 14px; background:#f0f2f8; border:1px solid #d0d8e8; border-radius:6px; color:#1e2a4a; font-size:11px; font-weight:700; cursor:pointer; font-family:'Segoe UI',Arial,sans-serif; text-transform:uppercase; text-decoration:none; }
+        #back-btn:hover { background:#e4e8f0; }
+        .nav-lang { display:flex; gap:4px; margin-left:auto; }
+        .lang-btn { padding:3px 10px; border:1px solid #e4e8f0; border-radius:5px; cursor:pointer; background:transparent; color:#6a7a9a; font-size:11px; font-weight:600; font-family:'Segoe UI',Arial,sans-serif; }
+        .lang-btn.active { background:#1e2a4a; color:#fff; border-color:#1e2a4a; }
+        .page-shell { max-width:900px; margin:40px auto; padding:24px; background:#fff; border-radius:14px; box-shadow:0 16px 50px rgba(0,0,0,0.08); }
+        h1 { margin-top:0; font-size:26px; font-weight:700; color:#1e2a4a; margin-bottom:12px; }
+        p { line-height:1.7; color:#44506b; margin-bottom:10px; }
+        .note { margin-top:18px; padding:16px; border-left:4px solid #1e2a4a; background:#f8f9fc; border-radius:0 8px 8px 0; }
+        .note strong { color:#1e2a4a; }
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <a id="back-btn" href="index.html" data-it="&#8592; Torna alla mappa" data-en="&#8592; Back to map">&#8592; Back to map</a>
+        <div class="nav-lang">
+            <button class="lang-btn" onclick="setLang('it')">IT</button>
+            <button class="lang-btn active" onclick="setLang('en')">EN</button>
+        </div>
+    </div>
+    <div class="page-shell">
+        <h1 id="project-title" data-it="Informazioni sul Progetto" data-en="Project Information">Project Information</h1>
+        <p data-it="Questa pagina è un segnaposto per le informazioni sul progetto. I dettagli verranno aggiunti qui in seguito." data-en="This page is a placeholder for project information. The project details will be added here later.">This page is a placeholder for project information. The project details will be added here later.</p>
+        <div class="note">
+            <strong data-it="Nota:" data-en="Note:">Note:</strong>
+            <span data-it=" Quando fai clic sull'icona del documento, l'app mappa dovrebbe aprire questa pagina per il progetto selezionato." data-en=" When you click the document icon, the map app should open this page for the selected project."> When you click the document icon, the map app should open this page for the selected project.</span>
+        </div>
+    </div>
+    <script>
+        function setLang(lang) {
+            document.querySelectorAll('[data-it]').forEach(function(el) {
+                var text = el.getAttribute('data-' + lang);
+                if (text !== null) el.textContent = text;
+            });
+            document.querySelectorAll('.lang-btn').forEach(function(b) {
+                b.classList.toggle('active', b.textContent === lang.toUpperCase());
+            });
+            document.title = lang === 'it' ? 'Informazioni sul Progetto' : 'Project Information';
+        }
+        // Read project name from URL params
+        var projectName = new URLSearchParams(window.location.search).get('name') || '';
+        if (projectName) {
+            document.getElementById('project-title').textContent = projectName;
+        }
+        // Sync lang from localStorage if set
+        var saved = localStorage.getItem('cuneo_lang');
+        if (saved && saved !== 'en') setLang(saved);
+    </script>
+</body>
+</html>
